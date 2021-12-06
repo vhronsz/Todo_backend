@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
   // console.log(req.body.username);
+  
   res.json({
     status:true,
     message:"Your credential is invalid"
