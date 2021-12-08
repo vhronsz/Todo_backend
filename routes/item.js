@@ -7,10 +7,16 @@ router.get("/",function(req,res,next){
 
     db.query
     (
-        `select * from sections join users on sections.user_id = users.id`+
-        `where user.id like ${user.id}`,function(err,rows,fields){
-
-        });
+        `SELECT action.name as action,sections.id,users.name FROM action join sections on action.section_id = sections.id join users on sections.user_id = users.id 
+        where users.id = ${user.id}`,
+        function(err,rows,fields){
+            if(err)throw err;
+            console.log(rows);
+            res.json({
+                rows
+            });
+        }
+    );
 });
 
 router.post("/add",function(req,res,next){
