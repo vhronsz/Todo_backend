@@ -2,26 +2,25 @@ var express = require('express');
 var db = require("../tools/db");
 var router = express.Router();
 
-router.get("/",function(req,res,next){
+router.post("/",function(req,res,next){
     let user = req.body.user;
-
     db.query
     (
-        `SELECT action.name as action,sections.id,sections.name FROM action join sections on action.section_id = sections.id join users on sections.user_id = users.id 
+        `SELECT action.name as action_name,action.id as action_id,sections.id as section_id,sections.name as section_name, action.status as status FROM action join sections on action.section_id = sections.id join users on sections.user_id = users.id 
         where users.id = ${user.id} order by sections.id desc`,
         function(err,rows,fields){
             if(err)throw err;
             let data = [];
-            let size = rows[0].id;
+            let size = rows[0].section_id;
 
-            for(let i = size;i>0;i--){
+            for(let i = 1;i<=size;i++){
                 data.push(rows.filter((row)=>{
-                    return row.id === i;
+                    return row.section_id === i;
                 }));
             }
 
             res.json({
-                "data":data
+                data : data
             });
         }
     );

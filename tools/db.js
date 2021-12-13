@@ -4,14 +4,16 @@ const user = 'root';
 const password = '';
 const database = 'todo';
 
-const connection = mysql.createConnection(
+let connection = mysql.createConnection(
 {
     host: host,
     user: user,
     password: password,
     database: database
 });
-
-connection.connect();
-
+connection.connect(function(error){
+    if(!!error){
+      console.log(error);
+    }
+  });
 module.exports = connection;
