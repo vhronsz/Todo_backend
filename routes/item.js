@@ -36,6 +36,15 @@ router.post("/add",function(req,res,next){
 });
 
 router.post("/check",function(req,res,next){
+    console.log(req.body);
+    let item_id = encodeURIComponent(req.body.id);
+    db.query(
+        `update action set status = "done" where id like '${item_id}'`,function(err,rows,fields){
+                if(err){
+                    throw(err);
+                }
+        }
+    );
     res.json({
       status:true,
       message:"Task Complete"
